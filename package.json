@@ -1,0 +1,52 @@
+{
+  "name": "argus",
+  "version": "1.0.0-alpha",
+  "description": "A cryptocurrency Discord bot to set up easier reminders about targeted prizes.",
+  "main": "dist/src/main.js",
+  "scripts": {
+    "build": "rimraf ./dist && npm run lint && npm run format && npm run compile",
+    "compile": "tsc --build tsconfig.json",
+    "start": "ts-node dist/src/main",
+    "dev": "nodemon",
+    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+  },
+  "keywords": [
+    "Discord",
+    "Cryptocurrency",
+    "Discord.js"
+  ],
+  "author": "glazk0 (https://glazk0.dev/)",
+  "contributors": [
+    "Marco. (https://github.com/Mawco)"
+  ],
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@prisma/client": "^3.12.0",
+    "@sentry/node": "^6.19.6",
+    "@sentry/tracing": "^6.19.6",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "escape-string-regexp": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "url": "^0.11.0",
+    "winston": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "kurasuta": "^3.0.2",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
+    "prisma": "^3.12.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
