@@ -6,10 +6,14 @@
   "scripts": {
     "build": "rimraf ./dist && npm run lint && npm run format && npm run compile",
     "compile": "tsc --build tsconfig.json",
-    "start": "ts-node dist/src/main",
+    "start": "export NODE_ENV=production && ts-node dist/src/main",
     "dev": "nodemon",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glazk0/argus.git"
   },
   "keywords": [
     "Discord",
@@ -21,6 +25,10 @@
     "Marco. (https://github.com/Mawco)"
   ],
   "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/glazk0/argus/issues"
+  },
+  "homepage": "https://github.com/glazk0/argus#readme",
   "dependencies": {
     "@prisma/client": "^3.12.0",
     "@sentry/node": "^6.19.6",
