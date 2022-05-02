@@ -8,6 +8,7 @@ import { join } from 'path';
 import { cacheUsers, discordToken, runningInProduction } from './config';
 import Logger from './utils/Logger';
 import { registerSharderEvents } from './utils/RegisterSharderEvents';
+import ArgusClient from './structures/ArgusClient';
 
 const cacheOptions: CacheWithLimitsOptions = {
   ...Options.defaultMakeCacheSettings,
@@ -33,6 +34,7 @@ const cacheOptions: CacheWithLimitsOptions = {
 };
 
 const sharder = new ShardingManager(join(__dirname, 'structures', 'ArgusCluster'), {
+  client: ArgusClient as any,
   clientOptions: {
     makeCache: Options.cacheWithLimits(
       cacheUsers ? cacheOptions : Object.assign(cacheOptions, { UserManager: { maxSize: 0 } })

@@ -15,10 +15,10 @@ export class ArgusCluster extends BaseCluster {
   }
 
   async launch(): Promise<void> {
-    // this.client.init().catch((error) => {
-    //   this.logger.error('Failed to initialize client.', error);
-    //   throw error;
-    // });
+    this.client.init().catch((error) => {
+      this.logger.error('Failed to initialize client.', error);
+      throw error;
+    });
     this.client.login(discordToken).catch(error => {
       this.logger.error('Failed to login client.', error);
       throw error;
