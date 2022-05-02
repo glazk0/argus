@@ -1,3 +1,4 @@
+import { runningInProduction } from '../../config';
 import { ArgusClient } from '../../structures/ArgusClient';
 
 export default class {
@@ -5,7 +6,7 @@ export default class {
   constructor(client: ArgusClient) {
     this.client = client;
   }
-  async run() {
-    this.client.logger.info(`${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers.`);
+  async run(...args: never) {
+    if (!runningInProduction) this.client.logger.debug([...args]);
   }
 }

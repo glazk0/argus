@@ -6,6 +6,6 @@ export default class {
     this.client = client;
   }
   async run() {
-    this.client.logger.info(`${this.client.user?.tag}, ready to serve ${this.client.guilds.cache.size} servers.`);
+    this.client.logger.warn(`${this.client.user?.tag} is reconnecting.`);
   }
 }
