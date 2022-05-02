@@ -4,12 +4,12 @@
   "description": "A cryptocurrency Discord bot to set up easier reminders about targeted prizes.",
   "main": "dist/src/main.js",
   "scripts": {
-    "build": "rimraf ./dist && npm run lint && npm run format && npm run compile",
-    "compile": "tsc --build tsconfig.json",
-    "start": "export NODE_ENV=production && ts-node dist/src/main",
-    "dev": "nodemon",
+    "start:local": "env-cmd ts-node src/main.ts",
+    "start:production": "env-cmd node dist/src/main",
+    "build": "tsc",
+    "watch": "tsc -w",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+    "prettier": "prettier --ignore-path .prettierignore --write \"**/*.+(js|ts|json)\""
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
     "Cryptocurrency",
     "Discord.js"
   ],
-  "author": "glazk0 (https://glazk0.dev/)",
+  "author": "glazk0 <hi@glazk0.dev> (https://glazk0.dev/)",
   "contributors": [
     "Marco. (https://github.com/Mawco)"
   ],
@@ -35,6 +35,7 @@
     "@sentry/tracing": "^6.19.6",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
+    "env-cmd": "^10.1.0",
     "escape-string-regexp": "^4.0.0",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
@@ -48,7 +49,6 @@
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "kurasuta": "^3.0.2",
-    "nodemon": "^2.0.15",
     "prettier": "^2.6.2",
     "prisma": "^3.12.0",
     "ts-node": "^10.7.0",
