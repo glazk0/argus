@@ -1,10 +1,7 @@
 import { Snowflake } from 'discord.js';
-import * as dotenv from 'dotenv';
 import escapeStringRegExp from 'escape-string-regexp';
 import { URL } from 'url';
 import { Admins } from './constant';
-
-dotenv.config();
 
 /** If we cache users or let refresh the cache. */
 export const cacheUsers = false;
