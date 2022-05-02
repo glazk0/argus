@@ -1,15 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import { init as initSentry } from '@sentry/node';
 import { Client, ClientOptions } from 'discord.js';
-import * as pkg from '../../package.json';
-import { runningInCI, runningInProduction, sentryDSN } from '../config';
-import { presence } from '../constant';
-import Logger from '../utils/Logger';
-import { ArgusCluster } from './ArgusCluster';
-import util from 'util';
 import fs from 'fs';
 import path from 'path';
-const readdir = util.promisify(fs.readdir);
+import util from 'util';
+import * as pkg from '../../package.json';
+import { runningInCI, runningInProduction, sentryDSN } from '../config';
+import Logger from '../utils/Logger';
+import { ArgusCluster } from './ArgusCluster';
 
 export class ArgusClient extends Client {
   prisma = new PrismaClient({
@@ -25,7 +23,6 @@ export class ArgusClient extends Client {
 
   constructor(clientOptions: ClientOptions) {
     super({
-      presence,
       ...clientOptions,
     });
     if (sentryDSN) {
@@ -38,6 +35,7 @@ export class ArgusClient extends Client {
     }
     this.logger = Logger;
   }
+
   async init(): Promise<this> {
     this.prisma.$on('info', (event: unknown) => {
       this.logger.info(event);
@@ -56,13 +54,14 @@ export class ArgusClient extends Client {
   }
 
   async loadEvents(): Promise<void> {
+    const readdir = util.promisify(fs.readdir);
     const directory = await readdir('./src/events/');
     this.logger.info(`Loading a total of ${directory.length} event categories.`);
-    directory.forEach(async dir => {
+    directory.forEach(async (dir) => {
       const events = await readdir(`./src/events/${dir}/`);
       events
-        .filter(event => event.split('.').pop() === 'ts')
-        .forEach(event => {
+        .filter((event) => event.split('.').pop() === 'ts')
+        .forEach((event) => {
           const eventName = event.split('.')[0];
           try {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -75,6 +74,11 @@ export class ArgusClient extends Client {
           }
         });
     });
+  }
+
+  async destroy(): Promise<void> {
+    await this.prisma.$disconnect();
+    super.destroy();
   }
 }
 

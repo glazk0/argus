@@ -19,7 +19,7 @@ export class ArgusCluster extends BaseCluster {
       this.logger.error('Failed to initialize client.', error);
       throw error;
     });
-    this.client.login(discordToken).catch(error => {
+    this.client.login(discordToken).catch((error) => {
       this.logger.error('Failed to login client.', error);
       throw error;
     });
