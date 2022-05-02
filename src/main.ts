@@ -1,14 +1,11 @@
-import * as dotenv from 'dotenv';
-
-dotenv.config();
-
 import { CacheWithLimitsOptions, Intents, Options, Sweepers } from 'discord.js';
 import { ShardingManager } from 'kurasuta';
 import { join } from 'path';
 import { cacheUsers, discordToken, runningInProduction } from './config';
+import { presence } from './constant';
+import { ArgusClient } from './structures/ArgusClient';
 import Logger from './utils/Logger';
 import { registerSharderEvents } from './utils/RegisterSharderEvents';
-import ArgusClient from './structures/ArgusClient';
 
 const cacheOptions: CacheWithLimitsOptions = {
   ...Options.defaultMakeCacheSettings,
@@ -27,14 +24,14 @@ const cacheOptions: CacheWithLimitsOptions = {
     sweepFilter: Sweepers.filterByLifetime({
       lifetime: 10800, // 3 Hours
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      getComparisonTimestamp: event => event.archiveTimestamp!,
-      excludeFromSweep: event => !event.archived,
+      getComparisonTimestamp: (event) => event.archiveTimestamp!,
+      excludeFromSweep: (event) => !event.archived,
     }),
   },
 };
 
 const sharder = new ShardingManager(join(__dirname, 'structures', 'ArgusCluster'), {
-  client: ArgusClient as any,
+  client: ArgusClient as never,
   clientOptions: {
     makeCache: Options.cacheWithLimits(
       cacheUsers ? cacheOptions : Object.assign(cacheOptions, { UserManager: { maxSize: 0 } })
@@ -45,6 +42,7 @@ const sharder = new ShardingManager(join(__dirname, 'structures', 'ArgusCluster'
     },
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
     partials: ['CHANNEL', 'USER', 'GUILD_MEMBER'],
+    presence: presence,
   },
   development: !runningInProduction,
   respawn: runningInProduction,
@@ -54,4 +52,4 @@ const sharder = new ShardingManager(join(__dirname, 'structures', 'ArgusCluster'
 
 registerSharderEvents(sharder, Logger);
 
-sharder.spawn().catch(error => Logger.error('Shard spawn has occured a error.', error));
+sharder.spawn().catch((error) => Logger.error('Shard spawn has occured a error.', error));

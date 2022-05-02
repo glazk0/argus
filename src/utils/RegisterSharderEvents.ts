@@ -4,23 +4,23 @@ import Logger from './Logger';
 
 export function registerSharderEvents(sharder: ShardingManager, logger: typeof Logger): ShardingManager {
   if (!runningInProduction) {
-    sharder.on(SharderEvents.DEBUG, message => {
+    sharder.on(SharderEvents.DEBUG, (message) => {
       logger.debug(message);
     });
-    sharder.on(SharderEvents.MESSAGE, message => {
+    sharder.on(SharderEvents.MESSAGE, (message) => {
       logger.debug(message);
     });
   }
-  sharder.on(SharderEvents.SPAWN, cluster => {
+  sharder.on(SharderEvents.SPAWN, (cluster) => {
     logger.info(`Cluster #${cluster.id} spawned.`);
   });
-  sharder.on(SharderEvents.READY, cluster => {
+  sharder.on(SharderEvents.READY, (cluster) => {
     logger.info(`Cluster #${cluster.id} ready.`);
   });
-  sharder.on(SharderEvents.SHARD_READY, shardID => {
+  sharder.on(SharderEvents.SHARD_READY, (shardID) => {
     logger.info(`Shard #${shardID} ready.`);
   });
-  sharder.on(SharderEvents.SHARD_RECONNECT, shardID => {
+  sharder.on(SharderEvents.SHARD_RECONNECT, (shardID) => {
     logger.info(`Shard #${shardID} reconnection in progress on the servers containing this shard...`);
   });
   sharder.on(SharderEvents.SHARD_RESUME, (replayed, shardID) => {

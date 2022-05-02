@@ -10,5 +10,6 @@ export enum Admins {
 
 /** Presence data to use with the client on login. */
 export const presence: PresenceData = {
+  status: 'online',
   activities: [{ name: 'for crypto', type: 'WATCHING' }],
 };

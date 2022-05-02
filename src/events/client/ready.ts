@@ -1,4 +1,4 @@
-import ArgusClient from '../../structures/ArgusClient';
+import { ArgusClient } from '../../structures/ArgusClient';
 
 export default class {
   client: ArgusClient;
@@ -6,6 +6,6 @@ export default class {
     this.client = client;
   }
   async run() {
-    console.log('helo');
+    console.log("I'm ready sir");
   }
 }

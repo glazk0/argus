@@ -5,7 +5,7 @@ const colorizer = winston.format.colorize();
 const level = () => {
   const env = process.env.NODE_ENV || 'development';
   const isDevelopment = env === 'development';
-  return isDevelopment ? 'debug' : 'warn';
+  return isDevelopment ? 'debug' : 'info';
 };
 
 const levels = {
@@ -28,7 +28,7 @@ winston.addColors(colors);
 
 const format = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-  winston.format.printf(info =>
+  winston.format.printf((info) =>
     colorizer.colorize(info.level, `[${info.timestamp}] [ ${info.level.toUpperCase()} ] - ${info.message}`)
   )
 );
