@@ -4,8 +4,8 @@
   "description": "A cryptocurrency Discord bot to set up easier reminders about targeted prizes.",
   "main": "dist/src/main.js",
   "scripts": {
-    "start:local": "env-cmd ts-node src/main.ts",
-    "start:production": "env-cmd node dist/src/main",
+    "dev:start": "env-cmd ts-node src/main.ts",
+    "prod:start": "env-cmd node dist/src/main",
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
