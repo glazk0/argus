@@ -2,7 +2,7 @@ import winston from 'winston';
 
 const colorizer = winston.format.colorize();
 
-const level = () => {
+const level = (): string => {
   const env = process.env.NODE_ENV || 'development';
   const isDevelopment = env === 'development';
   return isDevelopment ? 'debug' : 'info';

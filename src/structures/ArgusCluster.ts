@@ -5,23 +5,23 @@ import { ArgusClient } from './ArgusClient';
 
 export class ArgusCluster extends BaseCluster {
   public client!: ArgusClient;
-  logger: typeof Logger;
+  public logger: typeof Logger;
 
   constructor(...args: [ShardingManager]) {
     super(...args);
-
     this.logger = Logger;
     this.client.cluster = this;
   }
 
-  async launch(): Promise<void> {
-    this.client.init().catch((error) => {
-      this.logger.error('Failed to initialize client.', error);
-      throw error;
+  /* Launching the client. */
+  public async launch(): Promise<void> {
+    this.client.init().catch((e) => {
+      this.logger.error('Failed to initialize client', e);
+      throw e;
     });
-    this.client.login(discordToken).catch((error) => {
-      this.logger.error('Failed to login client.', error);
-      throw error;
+    this.client.login(discordToken).catch((e) => {
+      this.logger.error('Failed to login client.', e);
+      throw e;
     });
   }
 }

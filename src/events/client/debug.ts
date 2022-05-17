@@ -2,11 +2,13 @@ import { runningInProduction } from '../../config';
 import { ArgusClient } from '../../structures/ArgusClient';
 
 export default class {
-  client: ArgusClient;
+  private client: ArgusClient;
+
   constructor(client: ArgusClient) {
     this.client = client;
   }
-  async run(...args: never) {
+
+  public async run(...args: any): Promise<void> {
     if (!runningInProduction) this.client.logger.debug([...args]);
   }
 }

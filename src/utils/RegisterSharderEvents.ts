@@ -2,6 +2,12 @@ import { SharderEvents, ShardingManager } from 'kurasuta';
 import { runningInProduction } from '../config';
 import Logger from './Logger';
 
+/**
+ * It registers all the events that the sharder emits, and logs them to the logger
+ * @param {ShardingManager} sharder - The sharder instance.
+ * @param logger - The logger to use for logging.
+ * @returns The sharder object.
+ */
 export function registerSharderEvents(sharder: ShardingManager, logger: typeof Logger): ShardingManager {
   if (!runningInProduction) {
     sharder.on(SharderEvents.DEBUG, (message) => {

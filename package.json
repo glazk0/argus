@@ -1,6 +1,6 @@
 {
   "name": "argus",
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "description": "A cryptocurrency Discord bot to set up easier reminders about targeted prizes.",
   "main": "dist/src/main.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "prod:start": "env-cmd node dist/src/main",
     "build": "tsc",
     "watch": "tsc -w",
-    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
+    "lint": "eslint --fix --ignore-path .eslintignore --ext .js,.ts .",
     "prettier": "prettier --ignore-path .prettierignore --write \"**/*.+(js|ts|json)\""
   },
   "repository": {
@@ -43,6 +43,8 @@
     "winston": "^3.7.2"
   },
   "devDependencies": {
+    "@glazk0/eslint-config": "^1.0.1",
+    "@glazk0/prettier-config": "^1.0.0",
     "@types/node": "^17.0.25",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",

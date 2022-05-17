@@ -1,6 +1,6 @@
 import { Snowflake } from 'discord.js';
 import escapeStringRegExp from 'escape-string-regexp';
-import { URL } from 'url';
+import { URL } from 'node:url';
 import { Admins } from './constant';
 
 /** If we cache users or let refresh the cache. */
@@ -42,6 +42,7 @@ if (disassembledToken.length === 3) {
 /** The PostgreSQL database URI in a URL object, if it's present in the environment. */
 export const postgresURI = process.env.POSTGRES_URI ? new URL(process.env.POSTGRES_URI) : undefined;
 
+/* It's adding the password to the secrets array. */
 for (const secret of [sentryDSN, postgresURI?.password]) {
   if (secret) {
     secrets.push(escapeStringRegExp(secret));

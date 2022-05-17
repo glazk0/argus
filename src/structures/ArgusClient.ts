@@ -1,25 +1,24 @@
 import { PrismaClient } from '@prisma/client';
 import { init as initSentry } from '@sentry/node';
 import { Client, ClientOptions } from 'discord.js';
-import fs from 'fs';
-import path from 'path';
-import util from 'util';
+import fs from 'node:fs';
+import path from 'node:path';
+import util from 'node:util';
 import * as pkg from '../../package.json';
 import { runningInCI, runningInProduction, sentryDSN } from '../config';
 import Logger from '../utils/Logger';
 import { ArgusCluster } from './ArgusCluster';
 
 export class ArgusClient extends Client {
-  prisma = new PrismaClient({
+  public prisma = new PrismaClient({
     log: [
       { emit: 'event', level: 'warn' },
       { emit: 'event', level: 'info' },
     ],
   });
 
-  cluster?: ArgusCluster;
-
-  logger: typeof Logger;
+  public cluster?: ArgusCluster;
+  public logger: typeof Logger;
 
   constructor(clientOptions: ClientOptions) {
     super({
@@ -36,7 +35,11 @@ export class ArgusClient extends Client {
     this.logger = Logger;
   }
 
-  async init(): Promise<this> {
+  /**
+   * It connects to the database and loads the events.
+   * @returns The instance of the client
+   */
+  public async init(): Promise<this> {
     this.prisma.$on('info', (event: unknown) => {
       this.logger.info(event);
     });
@@ -53,7 +56,10 @@ export class ArgusClient extends Client {
     return this;
   }
 
-  async loadEvents(): Promise<void> {
+  /**
+   * It loads all the events from the events folder
+   */
+  private async loadEvents(): Promise<void> {
     const readdir = util.promisify(fs.readdir);
     const directory = await readdir('./src/events/');
     this.logger.info(`Loading a total of ${directory.length} event categories.`);
@@ -69,14 +75,17 @@ export class ArgusClient extends Client {
             this.logger.info(`Loading event: ${eventName}`);
             this.on(eventName, (...args) => event.run(...args));
             delete require.cache[require.resolve(`../events/${dir}${path.sep}${eventName}`)];
-          } catch (error) {
-            this.logger.error(`Unable to load interaction ${eventName}: ${error}`);
+          } catch (e) {
+            this.logger.error(`Unable to load interaction ${eventName}: ${e}`);
           }
         });
     });
   }
 
-  async destroy(): Promise<void> {
+  /**
+   * It disconnects from the Prisma database and then destroys the client
+   */
+  public async destroy(): Promise<void> {
     await this.prisma.$disconnect();
     super.destroy();
   }
